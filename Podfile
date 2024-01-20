@@ -7,6 +7,7 @@ target 'RickAndMortyApp' do
 
   pod 'Alamofire'
   pod 'SwiftyJSON'
+  pod 'Kingfisher'
   # Pods for RickAndMortyApp
 
   target 'RickAndMortyAppTests' do

@@ -6,51 +6,50 @@
 //
 
 import Foundation
-import Alamofire
-import SwiftyJSON
+
+protocol CharactersRepositoryProtocol {
+    func retrieveCharacters(page: Int, onFinish: @escaping (CharactersResponse) -> Void, onError: @escaping (Error) -> Void)
+}
 
 protocol CharactersPresenterProtocol: AnyObject {
-    func fetchCharacters()
+    func fetchCharacters(page: Int)
+    func shouldLoadMoreCharacters(character: Character) -> Bool
 }
 
 protocol CharactersPresenterDelegate {
     func loadCharacters(characters: [Character])
+    func onLoadCharactersError()
 }
 
 class CharactersPresenter: CharactersPresenterProtocol {
     
     private  var delegate: CharactersPresenterDelegate?
-    private var charactersResponse: CharactersResponse?
+    @Published var characters: [Character] = []
+   
+    private var charactersRepository: CharactersRepositoryProtocol
     
-    init(delegate: CharactersPresenterDelegate?) {
+    init(delegate: CharactersPresenterDelegate?, repository: CharactersRepositoryProtocol = CharactersRepository()) {
         self.delegate = delegate
+        self.charactersRepository = repository
     }
     
-    func fetchCharacters() {
-        let url = "https://rickandmortyapi.com/api/character";
-              AF.request(url, method: .get, parameters: nil, encoding: URLEncoding.default, headers: nil, interceptor: nil)
-                .response{ resp in
-                    switch resp.result{
-                      case .success(let data):
-                        do{
-                            let dataResponse = try JSON(data: resp.data!)
-                                print(dataResponse)
-                            }
-                            catch{
-                            print("JSON Error")
-                            }
-                        do{
-                          let jsonData = try JSONDecoder().decode(CharactersResponse.self, from: resp.data!)
-                            self.delegate?.loadCharacters(characters: jsonData.results)
-                       } catch {
-                          print(error.localizedDescription)
-                       }
-                     case .failure(let error):
-                       print(error.localizedDescription)
-                     }
-                }
+    func shouldLoadMoreCharacters(character: Character) -> Bool {
+        if (character.id_character == self.characters.count - 2) {
+            return true
+        }
+        return false
+    }
+    
+    func fetchCharacters(page: Int) {
+        self.charactersRepository.retrieveCharacters(page: page) { response in
+            self.characters.append(contentsOf: response.characters)
+            self.delegate?.loadCharacters(characters: self.characters)
+        } onError: { error in
+            self.delegate?.onLoadCharactersError()
+        }
+          
+
        
     }
-        
 }
 

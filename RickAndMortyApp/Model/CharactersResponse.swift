@@ -11,11 +11,11 @@ struct CharactersResponse: Codable, Identifiable {
     var id = UUID().uuidString
     
     let info: Info
-    let results: [Character]
+    let characters: [Character]
     
     private enum CodingKeys: String, CodingKey {
         case info
-        case results
+        case characters = "results"
     }
 }
 
