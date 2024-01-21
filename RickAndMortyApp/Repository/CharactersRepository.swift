@@ -16,11 +16,11 @@ class CharactersRepository : CharactersRepositoryProtocol{
                 "page": page
                 ]
         
-        let url = "https://rickandmortyapi.com/api/character/";
+        let url = String(Constants.Urls.baseUrl + Constants.Urls.charactersPath);
               AF.request(url, method: .get, parameters: parameters, encoding: URLEncoding.default, headers: nil, interceptor: nil)
                 .response{ resp in
                     switch resp.result{
-                      case .success(let data):
+                    case .success(_):
                         do{
                           let jsonData = try JSONDecoder().decode(CharactersResponse.self, from: resp.data!)
                             self.charactersResponse = jsonData

@@ -5,3 +5,8 @@
   Created by Edison Mejia Estrada on 20/01/24.
   
 */
+last_known_location = "Última ubicación conocida:";
+search_by_name = "Buscar por nombre, estado o especie";
+error_title = "Error";
+error_message_loading_characters = "Error cargando los personajes";
+accept_button = "Aceptar";

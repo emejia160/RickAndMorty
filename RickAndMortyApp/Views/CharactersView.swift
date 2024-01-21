@@ -14,7 +14,7 @@ struct CharactersView: View, CharactersPresenterDelegate {
     @ObservedObject var charactersContainer = CharactersContainer()
     var presenter: CharactersPresenterProtocol?
     @State private var currentPage: Int = 1
-    
+    @State private var showingAlertError = false
     @State private var searchText = ""
     
     
@@ -48,12 +48,15 @@ struct CharactersView: View, CharactersPresenterDelegate {
                                 VStack(alignment: .leading) {
                                     Text(character.name)
                                         .font(.title2.weight(.heavy))
-                                    Text(character.status)
-                                        .font(.caption.weight(.heavy))
-                                    Text("Last known location:")
-                                        .font(.title2.weight(.heavy))
+                                    Text(character.status + " - ")
+                                        .font(.subheadline.weight(.semibold))
+                                        .foregroundColor(character.status == "Alive" ? .green : character.status == "Dead" ? .red : .gray)
+                                    + Text(character.species)
+                                        .font(.subheadline.weight(.medium))
+                                    Text(NSLocalizedString("last_known_location", comment: ""))
+                                        .font(.subheadline.weight(.light))
                                     Text(character.location.name)
-                                        .font(.title2.weight(.heavy))
+                                        .font(.subheadline.weight(.medium))
                                 }
                             }
                         }
@@ -65,7 +68,10 @@ struct CharactersView: View, CharactersPresenterDelegate {
                         }
                     }
                     
-                } .searchable(text: $searchText, prompt: "Buscar por nombre")
+                }.alert(isPresented: $showingAlertError, content: {
+                    Alert(title: Text(NSLocalizedString("error_message", comment: "")), message: Text(NSLocalizedString("error_message_loading_characters", comment: "")), dismissButton: .default(Text(NSLocalizedString("accept_button", comment: ""))))
+                })
+                .searchable(text: $searchText, prompt: NSLocalizedString("search_by_name", comment: ""))
                  }.onAppear {
                     presenter?.fetchCharacters(page: 1)
                 }
@@ -75,7 +81,7 @@ struct CharactersView: View, CharactersPresenterDelegate {
         if searchText.isEmpty {
             return charactersContainer.characters
         } else {
-            return charactersContainer.characters.filter { $0.name.localizedCaseInsensitiveContains(searchText) }
+            return charactersContainer.characters.filter { $0.name.localizedCaseInsensitiveContains(searchText) || $0.species.localizedStandardContains(searchText) || $0.status.localizedStandardContains(searchText)}
         }
     }
     
@@ -84,7 +90,8 @@ struct CharactersView: View, CharactersPresenterDelegate {
     }
     
     func onLoadCharactersError() {
-      Alert(title: Text("Error"), message: Text("Error cargando personajes"), dismissButton: .default(Text("Aceptar")))
+        self.showingAlertError = true
+      
     }
     
 }

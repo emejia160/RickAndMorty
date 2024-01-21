@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-
+import Kingfisher
 struct CharacterDetail: View {
     @State var character: Character
     var body: some View {
@@ -21,12 +21,11 @@ struct CharacterDetail: View {
                         .resizable()
                         .scaledToFill()
                 default:
-                    Image(systemName: "newspaper")
+                    Image(systemName: "placeholder")
                 }
             }
-            .frame(width: 500, height: 500)
+            .frame(minWidth: 0, maxWidth: .infinity, maxHeight: 250)
             .clipped()
-            .clipShape(RoundedRectangle(cornerRadius: 10))
             
         }
     }
