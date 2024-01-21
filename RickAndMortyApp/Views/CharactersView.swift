@@ -48,11 +48,9 @@ struct CharactersView: View, CharactersPresenterDelegate {
                                 VStack(alignment: .leading) {
                                     Text(character.name)
                                         .font(.title2.weight(.heavy))
-                                    Text(character.status + " - ")
+                                    Text(character.status)
                                         .font(.subheadline.weight(.semibold))
                                         .foregroundColor(character.status == "Alive" ? .green : character.status == "Dead" ? .red : .gray)
-                                    + Text(character.species)
-                                        .font(.subheadline.weight(.medium))
                                     Text(NSLocalizedString("last_known_location", comment: ""))
                                         .font(.subheadline.weight(.light))
                                     Text(character.location.name)

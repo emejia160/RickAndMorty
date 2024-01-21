@@ -10,3 +10,7 @@ search_by_name = "Search by name, status or especie";
 error_title = "Error";
 error_message_loading_characters = "Error loading the characters";
 accept_button = "Accept";
+status_of_life = "Status of life:";
+origin = "Origin:";
+specie = "Specie:";
+genre = "Genre:";

@@ -10,3 +10,7 @@ search_by_name = "Buscar por nombre, estado o especie";
 error_title = "Error";
 error_message_loading_characters = "Error cargando los personajes";
 accept_button = "Aceptar";
+status_of_life = "Estado de vida:";
+origin = "Origen:";
+specie = "Especie:";
+genre = "Género:";
