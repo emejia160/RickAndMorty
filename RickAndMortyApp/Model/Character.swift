@@ -14,8 +14,8 @@ struct Character: Codable, Identifiable {
     let name, status: String
     let species, type: String
     let gender, image, url: String
-    let origin: Origin
-    let location: Location
+    let origin: CharacterOrigin
+    let location: CharacterLocation
     let episode: [String]
     
     private enum CodingKeys: String, CodingKey {
@@ -32,28 +32,3 @@ struct Character: Codable, Identifiable {
         case episode
     }
 }
-
-// MARK: - Character Origin
-struct Origin: Codable, Identifiable {
-    var id = UUID().uuidString
-    let name: String
-    let url: String
-    
-    private enum CodingKeys: String, CodingKey {
-        case name
-        case url
-    }
-}
-
-// MARK: - Character Location
-struct Location: Codable, Identifiable {
-    var id = UUID().uuidString
-    let name: String
-    let url: String
-    
-    private enum CodingKeys: String, CodingKey {
-        case name
-        case url
-    }
-}
-

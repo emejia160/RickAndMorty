@@ -37,7 +37,7 @@ struct CharacterRow: View {
                         .font(.title2.weight(.heavy))
                     Text(character.status)
                         .font(.caption.weight(.heavy))
-                    Text("Last known location:")
+                    Text(NSLocalizedString("last_known_location", comment: ""))
                         .font(.title2.weight(.heavy))
                     Text(character.location.name)
                         .font(.title2.weight(.heavy))

@@ -10,7 +10,7 @@ import Foundation
 struct CharactersResponse: Codable, Identifiable {
     var id = UUID().uuidString
     
-    let info: Info
+    let info: InfoResponse
     let characters: [Character]
     
     private enum CodingKeys: String, CodingKey {
@@ -19,18 +19,3 @@ struct CharactersResponse: Codable, Identifiable {
     }
 }
 
-// MARK: - CharacterResponse Info
-struct Info: Codable, Identifiable {
-    var id = UUID().uuidString
-    let count: Int
-    let pages: Int
-    let next: String?
-    let prev: String?
-    
-    private enum CodingKeys: String, CodingKey {
-        case count
-        case pages
-        case next
-        case prev
-    }
-}

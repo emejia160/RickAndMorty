@@ -11,18 +11,15 @@ struct CharacterDetail: View {
     @State var character: Character
     var body: some View {
         ScrollView {
-            AsyncImage(url: URL(string:character.image)) { phase in
-                switch phase {
-                case .empty:
-                    ProgressView()
-                case .success(let image):
-                    image
-                        .resizable()
-                        .scaledToFill()
-                default:
-                    Image(systemName: "placeholder")
-                }
-            }
+            KFImage.url(URL(string: character.image))
+                      .loadDiskFileSynchronously()
+                      .fade(duration: 0.25)
+                      .onProgress { receivedSize, totalSize in  }
+                      .onSuccess { result in  }
+                      .onFailure { error in }
+                      .frame(width: 350, height: 150)
+                      .scaledToFill()
+                      .clipped()
 
             VStack(alignment: .leading, spacing: 9) {
                 
@@ -41,7 +38,6 @@ struct CharacterDetail: View {
                     .foregroundColor(.secondary)
 
                 Divider()
-
                 
                 VStack(alignment: .leading) {
                     Text(NSLocalizedString("specie", comment: ""))
@@ -60,7 +56,6 @@ struct CharacterDetail: View {
                         .font(.headline)
                         .foregroundColor(.secondary)
                 }
-
                
             }
             .padding(.horizontal)

@@ -8,6 +8,14 @@
 import SwiftUI
 import Kingfisher
 
+
+private enum Status: String{
+    
+    case alive = "Alive"
+    case dead = "Dead"
+    case unknown = "unknown"
+}
+
 struct CharactersView: View, CharactersPresenterDelegate {
     
     
@@ -34,6 +42,7 @@ struct CharactersView: View, CharactersPresenterDelegate {
                                 KFImage.url(URL(string: character.image))
                                           .loadDiskFileSynchronously()
                                           .cacheMemoryOnly()
+                                          .cacheOriginalImage(true)
                                           .scaleFactor(2.3)
                                           .fade(duration: 0.25)
                                           .onProgress { receivedSize, totalSize in  }
@@ -50,7 +59,7 @@ struct CharactersView: View, CharactersPresenterDelegate {
                                         .font(.title2.weight(.heavy))
                                     Text(character.status)
                                         .font(.subheadline.weight(.semibold))
-                                        .foregroundColor(character.status == "Alive" ? .green : character.status == "Dead" ? .red : .gray)
+                                        .foregroundColor(character.status == Status.alive.rawValue ? .green : character.status == Status.dead.rawValue ? .red : .gray)
                                     Text(NSLocalizedString("last_known_location", comment: ""))
                                         .font(.subheadline.weight(.light))
                                     Text(character.location.name)
